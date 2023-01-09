@@ -1,0 +1,9 @@
+#general {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.submit{
+  max-width: 200px;
+}
