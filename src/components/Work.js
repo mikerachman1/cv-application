@@ -119,7 +119,7 @@ class Work extends Component {
   render() {
     const { workInfo, workplaces, formActive } = this.state;
     return(
-      <div id="education">
+      <div id="work">
         {formActive ?
         <form>
           <label htmlFor="company-name">
@@ -170,9 +170,12 @@ class Work extends Component {
           <button onClick={this.toggleForm} className="button">Cancel</button>
         </form>
         :
-        <button onClick={this.toggleForm}>Add Work Experience</button>
+        <div className="container">
+          <h2>Work History</h2>
+          <button onClick={this.toggleForm}>Add Work Experience</button>
+        </div>
         }
-        <ul>
+        <ul className="container">
           {workplaces.map((workplace, i) => {
             return <div key={workplace.id}>
                 <li>

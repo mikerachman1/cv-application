@@ -143,9 +143,12 @@ class Education extends Component {
           <button onClick={this.toggleForm} className="button">Cancel</button>
         </form>
         :
-        <button onClick={this.toggleForm}>Add School</button>
+        <div className="container">
+          <h2>Education</h2>
+          <button onClick={this.toggleForm}>Add School</button>
+        </div>
         }
-        <ul>
+        <ul className="container">
           {schools.map((school, i) => {
             return <div key={school.id}>
                 <li>

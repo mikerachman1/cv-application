@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "../styles/general.css"
 
 class General extends Component {
   constructor() {
@@ -70,10 +69,10 @@ class General extends Component {
           </button>
         </form>
         :
-        <div>
+        <div className="container">
           <h3>{name}</h3>
           <h3>{email}</h3>
-          <button onClick={this.toggleForm} className="button">Edit</button>
+          <button onClick={this.toggleForm} className="button">Edit Name/Email</button>
         </div>
       }
       </div>
