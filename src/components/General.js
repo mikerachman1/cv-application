@@ -10,15 +10,9 @@ class General extends Component {
     };
   }
 
-  handleNameChange = (e) => {
+  handleChange = (e) => {
     this.setState({
-      name: e.target.value,
-    });
-  };
-
-  handleEmailChange = (e) => {
-    this.setState({
-      email: e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -50,18 +44,20 @@ class General extends Component {
             Name:
             <input 
               type='text' 
-              id='name' 
+              id='name'
+              name="name" 
               value={name}
-              onChange={this.handleNameChange}
+              onChange={this.handleChange}
               />
           </label>
           <label htmlFor="email">
             Email:
             <input 
               type='email' 
-              id='email' 
+              id='email'
+              name="email" 
               value={email}
-              onChange={this.handleEmailChange}
+              onChange={this.handleChange}
               />
           </label>
           <button onClick={this.submitForm} className="button">

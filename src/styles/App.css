@@ -27,7 +27,7 @@ h1 {
   margin-bottom: 0;
 }
 
-h3 {
+h2, h3 {
   margin: 0;
 }
 
@@ -43,7 +43,7 @@ form,
   text-align: center;
 }
 
-form {
+form, .container {
   gap: 20px;
 }
 
