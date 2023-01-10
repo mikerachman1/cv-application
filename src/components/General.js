@@ -24,15 +24,14 @@ class General extends Component {
   };
 
   toggleForm = () => {
-    if (this.state.formActive) {
+    this.state.formActive ?
       this.setState({
         formActive: false,
-      });
-    } else {
+      })
+    :
       this.setState({
         formActive: true,
-      });
-    }
+      })
   };
 
   submitForm = (e) => {
