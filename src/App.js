@@ -1,8 +1,12 @@
 import General from "./components/General";
+import Education from "./components/Education";
 
 function App() {
   return (
-    <General />
+    <div>
+      <General />
+      <Education />
+    </div>
   );
 }
 

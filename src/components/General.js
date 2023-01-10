@@ -65,7 +65,7 @@ class General extends Component {
               onChange={this.handleEmailChange}
               />
           </label>
-          <button onClick={this.submitForm} className="submit">
+          <button onClick={this.submitForm} className="button">
             Submit
           </button>
         </form>
@@ -73,7 +73,7 @@ class General extends Component {
         <div>
           <h3>{name}</h3>
           <h3>{email}</h3>
-          <button onClick={this.toggleForm}>Edit</button>
+          <button onClick={this.toggleForm} className="button">Edit</button>
         </div>
       }
       </div>
