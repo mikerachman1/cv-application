@@ -7,26 +7,76 @@ class General extends Component {
     this.state = {
       name: '',
       email: '',
-      phone: '', 
+      formActive: true,
     };
   }
 
+  handleNameChange = (e) => {
+    this.setState({
+      name: e.target.value,
+    });
+  };
+
+  handleEmailChange = (e) => {
+    this.setState({
+      email: e.target.value,
+    });
+  };
+
+  toggleForm = () => {
+    if (this.state.formActive) {
+      this.setState({
+        formActive: false,
+      });
+    } else {
+      this.setState({
+        formActive: true,
+      });
+    }
+  };
+
+  submitForm = (e) => {
+    e.preventDefault();
+    this.toggleForm();
+  }
+
+
   render() {
+    const { name, email, formActive } = this.state;
+
     return(
       <div id="general">
-        <label htmlFor="name">
-          Name:
-          <input type='text' name='name' />
-        </label>
-        <label htmlFor="email">
-          Email:
-          <input type='email' name='email' />
-        </label>
-        <label htmlFor="phone">
-          Phone Number:
-          <input type='tel' name='phone' />
-        </label>
-        <button className="submit">Submit</button>
+      {formActive ? 
+        <form>
+          <label htmlFor="name">
+            Name:
+            <input 
+              type='text' 
+              id='name' 
+              value={name}
+              onChange={this.handleNameChange}
+              />
+          </label>
+          <label htmlFor="email">
+            Email:
+            <input 
+              type='email' 
+              id='email' 
+              value={email}
+              onChange={this.handleEmailChange}
+              />
+          </label>
+          <button onClick={this.submitForm} className="submit">
+            Submit
+          </button>
+        </form>
+        :
+        <div>
+          <h3>{name}</h3>
+          <h3>{email}</h3>
+          <button onClick={this.toggleForm}>Edit</button>
+        </div>
+      }
       </div>
     );
   }
