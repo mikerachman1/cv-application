@@ -1,143 +1,63 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import uniqid from "uniqid";
 
-class Work extends Component {
-  constructor() {
-    super();
-    this.state = {
-      workInfo: {
-        company: '',
-        title: '',
-        description: '',
-        dateFrom: '',
-        dateTo: '',
-        id: uniqid(),
-      },
-      workplaces: [],
-      formActive: true,
-    };
-  };
+const Work = () => {
+  const [formData, setFormData] = useState({
+    company: '',
+    title: '',
+    description: '',
+    dateFrom: '',
+    dateTo: '',
+    id: uniqid(),
+  });
+  const [workplaces, setWorkplaces] = useState([]);
+  const [formActive, setFormActive] = useState(true);
 
-  toggleForm = () => {
-    this.state.formActive ?
-      this.setState({
-        formActive: false,
-      })
-    :
-      this.setState({
-        formActive: true,
-      })
+  const toggleForm = () => formActive ? setFormActive(false) : setFormActive(true);
+  const handleFormChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setFormData({ ...formData, [name]: value });
   };
-
-  handleCompanyChange = (e) => {
-    this.setState({
-      workInfo : {
-        company: e.target.value,
-        id: this.state.workInfo.id,
-        title: this.state.workInfo.title,
-        description: this.state.workInfo.description,
-        dateFrom: this.state.workInfo.dateFrom,
-        dateTo: this.state.workInfo.dateTo,
-      }
-    });
-  };
-
-  handleTitleChange = (e) => {
-    this.setState({
-      workInfo : {
-        company: this.state.workInfo.company,
-        id: this.state.workInfo.id,
-        title: e.target.value,
-        description: this.state.workInfo.description,
-        dateFrom: this.state.workInfo.dateFrom,
-        dateTo: this.state.workInfo.dateTo,
-      }
-    });
-  };
-
-  handleDescriptionChange = (e) => {
-    this.setState({
-      workInfo : {
-        company: this.state.workInfo.company,
-        id: this.state.workInfo.id,
-        title: this.state.workInfo.title,
-        description: e.target.value,
-        dateFrom: this.state.workInfo.dateFrom,
-        dateTo: this.state.workInfo.dateTo,
-      }
-    });
-  };
-
-  handleDateFromChange = (e) => {
-    this.setState({
-      workInfo : {
-        company: this.state.workInfo.company,
-        id: this.state.workInfo.id,
-        title: this.state.workInfo.title,
-        description: this.state.workInfo.description,
-        dateFrom: e.target.value,
-        dateTo: this.state.workInfo.dateTo,
-      }
-    });
-  };
-
-  handleDateToChange = (e) => {
-    this.setState({
-      workInfo : {
-        company: this.state.workInfo.company,
-        id: this.state.workInfo.id,
-        title: this.state.workInfo.title,
-        description: this.state.workInfo.description,
-        dateFrom: this.state.workInfo.dateFrom,
-        dateTo: e.target.value,
-      }
-    });
-  };
-
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    this.setState({
-      workplaces: this.state.workplaces.concat(this.state.workInfo),
-      workInfo: {
-        company: '',
-        title: '',
-        description: '',
-        dateFrom: '',
-        dateTo: '',
-        id: uniqid(),
-      },
+    setWorkplaces(workplaces.concat(formData));
+    setFormData({
+      company: '',
+      title: '',
+      description: '',
+      dateFrom: '',
+      dateTo: '',
+      id: uniqid(),
     });
-    this.toggleForm();
+    toggleForm();
   };
-
-  deleteWorkplace = (i) => {
-    this.setState({
-      workplaces: this.state.workplaces.filter(workplace => workplace !== this.state.workplaces[i]),
-    })
-  }
-
-  render() {
-    const { workInfo, workplaces, formActive } = this.state;
-    return(
-      <div id="work">
+  const deleteWorkplace = (i) => {
+    setWorkplaces(workplaces.filter(workplace => workplace !== workplaces[i]));
+  };
+  
+  return (
+    <div id="work">
         {formActive ?
         <form>
           <label htmlFor="company-name">
             Company Name: 
             <input 
               id="company-name"
+              name="company"
               type="text"
-              value={workInfo.company}
-              onChange={this.handleCompanyChange}
+              value={formData.company}
+              onChange={(e) => handleFormChange(e)}
             />
           </label>
           <label htmlFor="title">
             Title: 
             <input 
               id="title"
+              name="title"
               type="text"
-              value={workInfo.title}
-              onChange={this.handleTitleChange}
+              value={formData.title}
+              onChange={(e) => handleFormChange(e)}
             />
           </label>
           <label htmlFor="description">
@@ -145,34 +65,37 @@ class Work extends Component {
           </label>
           <textarea
               id="description"
-              value={workInfo.description}
-              onChange={this.handleDescriptionChange}>
+              name="description"
+              value={formData.description}
+              onChange={(e) => handleFormChange(e)}>
           </textarea>
           <label htmlFor="date-from">
             Date Started: 
             <input 
               id="date-from"
+              name="dateFrom"
               type="date"
-              value={workInfo.dateFrom}
-              onChange={this.handleDateFromChange}
+              value={formData.dateFrom}
+              onChange={(e) => handleFormChange(e)}
             />
           </label>
           <label htmlFor="date-to">
             Date Finished: 
             <input 
-              id="date-from"
+              id="date-to"
+              name="dateTo"
               type="date"
-              value={workInfo.dateTo}
-              onChange={this.handleDateToChange}
+              value={formData.dateTo}
+              onChange={(e) => handleFormChange(e)}
             />
           </label>
-          <button onClick={this.onSubmit} className="button">Submit</button>
-          <button onClick={this.toggleForm} className="button">Cancel</button>
+          <button onClick={(e) => onSubmit(e)} className="button">Submit</button>
+          <button onClick={toggleForm} className="button">Cancel</button>
         </form>
         :
         <div className="container">
           <h2>Work History</h2>
-          <button onClick={this.toggleForm}>Add Work Experience</button>
+          <button onClick={toggleForm}>Add Work Experience</button>
         </div>
         }
         <ul className="container">
@@ -185,14 +108,12 @@ class Work extends Component {
                   <p>From: {workplace.dateFrom}</p>
                   <p>To: {workplace.dateTo}</p>
                 </li>
-                <button onClick={() => this.deleteWorkplace(i)}>Delete</button>
+                <button onClick={() => deleteWorkplace(i)}>Delete</button>
               </div>
           })}
         </ul>
       </div>
-    );
-  }
-
-}
+  );
+};
 
 export default Work;
