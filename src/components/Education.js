@@ -1,105 +1,45 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import uniqid from "uniqid";
 
-class Education extends Component {
-  constructor() {
-    super();
-    this.state = {
-      schoolInfo: {
-        name: '',
-        title: '',
-        dateFrom: '',
-        dateTo: '',
-        id: uniqid(),
-      },
-      schools: [],
-      formActive: true,
-    };
-  };
-
-  toggleForm = () => {
-    this.state.formActive ?
-      this.setState({
-        formActive: false,
-      })
-    :
-      this.setState({
-        formActive: true,
-      })
-  };
-
-  handleNameChange = (e) => {
-    this.setState({
-      schoolInfo : {
-        name: e.target.value,
-        id: this.state.schoolInfo.id,
-        title: this.state.schoolInfo.title,
-        dateFrom: this.state.schoolInfo.dateFrom,
-        dateTo: this.state.schoolInfo.dateTo,
-      }
+const Education = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    title: '',
+    dateFrom: '',
+    dateTo: '',
+    id: uniqid(),
     });
-  };
+  const [schools, setSchools] = useState([]);
+  const [formActive, setFormActive] = useState(true);
 
-  handleTitleChange = (e) => {
-    this.setState({
-      schoolInfo : {
-        title: e.target.value,
-        id: this.state.schoolInfo.id,
-        dateFrom: this.state.schoolInfo.dateFrom,
-        dateTo: this.state.schoolInfo.dateTo,
-        name: this.state.schoolInfo.name,
-      }
-    });
-  };
-
-  handleDateFromChange = (e) => {
-    this.setState({
-      schoolInfo : {
-        dateFrom: e.target.value,
-        id: this.state.schoolInfo.id,
-        title: this.state.schoolInfo.title,
-        dateTo: this.state.schoolInfo.dateTo,
-        name: this.state.schoolInfo.name,
-      }
-    });
-  };
-
-  handleDateToChange = (e) => {
-    this.setState({
-      schoolInfo : {
-        dateTo: e.target.value,
-        id: this.state.schoolInfo.id,
-        title: this.state.schoolInfo.title,
-        dateFrom: this.state.schoolInfo.dateFrom,
-        name: this.state.schoolInfo.name,
-      }
-    });
-  };
-
-  onSubmit = (e) => {
-    e.preventDefault();
-    this.setState({
-      schools: this.state.schools.concat(this.state.schoolInfo),
-      schoolInfo: {
-        name: '',
-        title: '',
-        dateFrom: '',
-        dateTo: '',
-        id: uniqid(),
-      }, 
-    });
-    this.toggleForm();
-  };
-
-  deleteSchool = (i) => {
-    this.setState({
-      schools: this.state.schools.filter(school => school !== this.state.schools[i]),
-    })
+  const toggleForm = () => {
+    formActive ? setFormActive(false) : setFormActive(true);
   }
 
-  render() {
-    const { schoolInfo, schools, formActive } = this.state;
-    return(
+  const handleFormChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setFormData({...formData, [name]: value });
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setSchools(schools.concat(formData));
+    setFormData({
+      name: '',
+      title: '',
+      dateFrom: '',
+      dateTo: '',
+      id: uniqid(),
+      });
+    toggleForm();
+  }
+
+  const deleteSchool = (i) => {
+    setSchools(schools.filter(school => school !== schools[i]));
+  };
+
+  return (
       <div id="education">
         {formActive ?
         <form>
@@ -107,45 +47,49 @@ class Education extends Component {
             School Name: 
             <input 
               id="school-name"
+              name="name"
               type="text"
-              value={schoolInfo.name}
-              onChange={this.handleNameChange}
+              value={formData.name}
+              onChange={(e) => handleFormChange(e)}
             />
           </label>
           <label htmlFor="title">
             Degree Type: 
             <input 
               id="title"
+              name="title"
               type="text"
-              value={schoolInfo.title}
-              onChange={this.handleTitleChange}
+              value={formData.title}
+              onChange={(e) => handleFormChange(e)}
             />
           </label>
           <label htmlFor="date-from">
             Date Started: 
             <input 
               id="date-from"
+              name="dateFrom"
               type="date"
-              value={schoolInfo.dateFrom}
-              onChange={this.handleDateFromChange}
+              value={formData.dateFrom}
+              onChange={(e) => handleFormChange(e)}
             />
           </label>
           <label htmlFor="date-to">
             Date Finished: 
             <input 
-              id="date-from"
+              id="date-to"
+              name="dateTo"
               type="date"
-              value={schoolInfo.dateTo}
-              onChange={this.handleDateToChange}
+              value={formData.dateTo}
+              onChange={(e) => handleFormChange(e)}
             />
           </label>
-          <button onClick={this.onSubmit} className="button">Submit</button>
-          <button onClick={this.toggleForm} className="button">Cancel</button>
+          <button onClick={(e) => onSubmit(e)} className="button">Submit</button>
+          <button onClick={toggleForm} className="button">Cancel</button>
         </form>
         :
         <div className="container">
           <h2>Education</h2>
-          <button onClick={this.toggleForm}>Add School</button>
+          <button onClick={toggleForm}>Add School</button>
         </div>
         }
         <ul className="container">
@@ -157,14 +101,12 @@ class Education extends Component {
                   <p>From: {school.dateFrom}</p>
                   <p>To: {school.dateTo}</p>
                 </li>
-                <button onClick={() => this.deleteSchool(i)}>Delete</button>
+                <button onClick={() => deleteSchool(i)}>Delete</button>
               </div>
           })}
         </ul>
       </div>
-    );
-  }
-
-}
+  );
+};
 
 export default Education;
