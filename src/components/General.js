@@ -1,43 +1,21 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
-class General extends Component {
-  constructor() {
-    super();
-    this.state = {
-      name: '',
-      email: '',
-      formActive: true,
-    };
-  }
+const General = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [formActive, setFormActive] = useState(true);
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
+  const toggleForm = () => {
+    formActive ? setFormActive(false) : setFormActive(true)
   };
 
-  toggleForm = () => {
-    this.state.formActive ?
-      this.setState({
-        formActive: false,
-      })
-    :
-      this.setState({
-        formActive: true,
-      })
-  };
-
-  submitForm = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    this.toggleForm();
-  }
+    toggleForm();
+  };
 
-
-  render() {
-    const { name, email, formActive } = this.state;
-
-    return(
-      <div id="general">
+  return (
+    <div id="general">
       {formActive ? 
         <form>
           <label htmlFor="name">
@@ -47,7 +25,7 @@ class General extends Component {
               id='name'
               name="name" 
               value={name}
-              onChange={this.handleChange}
+              onChange={(e) => setName(e.target.value)}
               />
           </label>
           <label htmlFor="email">
@@ -57,10 +35,10 @@ class General extends Component {
               id='email'
               name="email" 
               value={email}
-              onChange={this.handleChange}
+              onChange={(e) => setEmail(e.target.value)}
               />
           </label>
-          <button onClick={this.submitForm} className="button">
+          <button onClick={(e) => handleSubmit(e)} className="button">
             Submit
           </button>
         </form>
@@ -68,12 +46,11 @@ class General extends Component {
         <div className="container">
           <h3>{name}</h3>
           <h3>{email}</h3>
-          <button onClick={this.toggleForm} className="button">Edit Name/Email</button>
+          <button onClick={toggleForm} className="button">Edit Name/Email</button>
         </div>
       }
-      </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default General;
